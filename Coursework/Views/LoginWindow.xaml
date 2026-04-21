@@ -1,70 +1,54 @@
-<Window x:Class="Coursework.MainWindow"
+ï»¿<Window x:Class="Coursework.Views.LoginWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Coursework"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Width="250">
-            <TextBlock Text="Âõîä â ñèñòåìó"
-                   FontSize="24"
-                   FontWeight="Bold"
-                   Foreground="#2D6033"
-                   HorizontalAlignment="Center"
-                   Margin="0,0,0,30" />
+        Title="ÐÐ²Ñ‚Ð¾Ñ€Ð¸Ð·Ð°Ñ†Ð¸Ñ"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize">
+    <Grid Background="#F5F5F5">
+        <Border Background="White"
+                Width="350"
+                Padding="30"
+                CornerRadius="10"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center">
 
-            <TextBlock Text="Ëîãèí"
-                   FontSize="14"
-                   Foreground="#2D6033"
-                   Margin="0,0,0,5" />
+            <StackPanel>
 
-            <TextBox x:Name="txtuserName"
-                 Height="35"
-                 Padding="10,8"
-                 FontSize="14"
-                 BorderBrush="#2D6033"
-                 BorderThickness="1"
-                 Background="White"
-                 Margin="0,0,0,15" />
+                <TextBlock Text="Ð’Ñ…Ð¾Ð´ Ð² ÑÐ¸ÑÑ‚ÐµÐ¼Ñƒ"
+                           FontSize="26"
+                           FontWeight="Bold"
+                           Foreground="#2D6033"
+                           HorizontalAlignment="Center"
+                           Margin="0,0,0,30" />
 
-            <TextBlock Text="Ïàðîëü"
-                   FontSize="14"
-                   Foreground="#2D6033"
-                   Margin="0,0,0,5" />
+                <TextBlock Text="Ð›Ð¾Ð³Ð¸Ð½"
+                           Foreground="#2D6033"/>
+                <TextBox x:Name="txtuserName"
+                         Height="35"
+                         Margin="0,5,0,15"/>
 
-            <PasswordBox x:Name="txtpassword"
-                     Height="35"
-                     Padding="10,8"
-                     FontSize="14"
-                     BorderBrush="#2D6033"
-                     BorderThickness="1"
-                     Background="White"
-                     Margin="0,0,0,25" />
+                <TextBlock Text="ÐŸÐ°Ñ€Ð¾Ð»ÑŒ"
+                           Foreground="#2D6033"/>
+                <PasswordBox x:Name="txtpassword"
+                             Height="35"
+                             Margin="0,5,0,25"/>
 
-            <Button x:Name="btnLogin"
-                Content="ÂÎÉÒÈ"
-                Height="40"
-                Background="#2D6033"
-                Foreground="White"
-                FontSize="16"
-                FontWeight="Bold"
-                BorderThickness="0"
-                Cursor="Hand"
-                Margin="0,0,0,10"
-                Click="btnLogin_Click" />
+                <Button x:Name="btnLogin"
+                        Content="Ð’ÐžÐ™Ð¢Ð˜"
+                        Height="40"
+                        KeyDown="Window_KeyDown"
+                        Background="#2D6033"
+                        Foreground="White"
+                        Click="btnLogin_Click"/>
 
-            <Button x:Name="btnGuest"
-                Content="ÂÎÉÒÈ ÊÀÊ ÃÎÑÒÜ"
-                Height="40"
-                Background="#4A7A4F"
-                Foreground="White"
-                FontSize="14"
-                FontWeight="Bold"
-                BorderThickness="0"
-                Cursor="Hand"
-                Click="Button_Click" />
-        </StackPanel>
+                <Button x:Name="btnGuest"
+                        Content="Ð’ÐžÐ™Ð¢Ð˜ ÐšÐÐš Ð“ÐžÐ¡Ð¢Ð¬"
+                        Height="40"
+                        Margin="0,10,0,0"
+                        Background="#4A7A4F"
+                        Foreground="White"
+                        Click="btnGuest_Click"/>
+            </StackPanel>
+        </Border>
     </Grid>
 </Window>

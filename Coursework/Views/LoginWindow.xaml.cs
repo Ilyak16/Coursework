@@ -1,4 +1,8 @@
-﻿using System.Text;
+﻿using Coursework.Core;
+using Coursework.Models;
+using Coursework.Services;
+using Coursework.Views;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -8,55 +12,57 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Coursework.Models;
-using Coursework.Views;
 
 namespace Coursework.Views
 {
-    public partial class MainWindow : Window
+    public partial class LoginWindow : Window
     {
-        private List<User> _users = new List<User>
-    {
-        new User { userName = "admin", password = "admin123", role = "Admin" },
-        new User { userName = "user", password = "user123", role = "User" },
-        new User { userName = "manager", password = "123", role = "Manager" }
-    };
+        private AuthService _authService = new();
 
-        public MainWindow()
+        public LoginWindow()
         {
             InitializeComponent();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            Guest guest = new Guest();
-            guest.ShowDialog();
-            this.Close();
-        }
-
         private void btnLogin_Click(object sender, RoutedEventArgs e)
         {
-            string username = txtuserName.Text;
+            string login = txtuserName.Text;
             string password = txtpassword.Password;
 
-            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+            if (string.IsNullOrWhiteSpace(login) || string.IsNullOrWhiteSpace(password))
             {
-                MessageBox.Show("!!!");
+                MessageBox.Show("Введите логин и пароль");
                 return;
             }
 
-            var user = _users.FirstOrDefault(u => u.userName == username && u.password == password);
+            var user = _authService.Login(login, password);
 
-            if (user != null && user.role == "Manager")
+            if (user == null)
             {
-                ManagerWindow userWindow = new ManagerWindow();
-                userWindow.Show();
-                this.Close();
+                MessageBox.Show("Неверный логин или пароль");
+                return;
             }
-            else
-            {
-                MessageBox.Show("!!!");
-            }
+
+            // сохраняем пользователя в сессию
+            Session.CurrentUser = user;
+
+            MessageBox.Show($"Вы вошли как: {user.ФИО}");
+
+            new MainWindow().Show();
+            this.Close();
+        }
+
+        private void btnGuest_Click(object sender, RoutedEventArgs e)
+        {
+            Session.CurrentUser = null;
+
+            new MainWindow().Show();
+            this.Close();
+        }
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+                btnLogin_Click(sender, e);
         }
     }
 }

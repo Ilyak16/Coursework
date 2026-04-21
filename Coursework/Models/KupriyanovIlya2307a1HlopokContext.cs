@@ -17,6 +17,8 @@ public partial class KupriyanovIlya2307a1HlopokContext : DbContext
 
     public virtual DbSet<АссортиментМагазина> АссортиментМагазинаs { get; set; }
 
+    public DbSet<Пользователь> Пользовательs { get; set; }
+
     public virtual DbSet<Бригада> Бригадаs { get; set; }
 
     public virtual DbSet<ДвижениеЗапасов> ДвижениеЗапасовs { get; set; }
