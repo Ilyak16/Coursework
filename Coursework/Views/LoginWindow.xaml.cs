@@ -64,5 +64,10 @@ namespace Coursework.Views
             if (e.Key == Key.Enter)
                 btnLogin_Click(sender, e);
         }
+
+        private void Register_Click(object sender, RoutedEventArgs e)
+        {
+            new RegisterWindow().ShowDialog();
+        }
     }
 }
