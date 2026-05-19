@@ -8,7 +8,6 @@ namespace Coursework.Core
 {
     public enum Role
     {
-        Guest,
         Client,
         Manager,
         Admin

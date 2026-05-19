@@ -1,50 +1,100 @@
 ﻿using Coursework.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Coursework.Services;
 using System.Windows;
 
 namespace Coursework.Views
 {
     public partial class RegisterWindow : Window
     {
-        private KupriyanovIlya2307a1HlopokContext _context = new();
+        private readonly
+        KupriyanovIlya2307a1HlopokContext
+            _context = new();
 
         public RegisterWindow()
         {
             InitializeComponent();
         }
 
-        private void Register_Click(object sender, RoutedEventArgs e)
+        private void Register_Click(
+            object sender,
+            RoutedEventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(tbLogin.Text) ||
-                string.IsNullOrWhiteSpace(tbPassword.Password))
+            string fullName =
+                FullNameBox.Text.Trim();
+
+            string login =
+                LoginBox.Text.Trim();
+
+            string password =
+                PasswordBox.Password;
+
+            string repeatPassword =
+                RepeatPasswordBox.Password;
+
+            if (
+                string.IsNullOrWhiteSpace(fullName)
+                || string.IsNullOrWhiteSpace(login)
+                || string.IsNullOrWhiteSpace(password))
             {
-                MessageBox.Show("Заполните все поля");
+                MessageBox.Show(
+                    "Заполните все поля");
+
                 return;
             }
 
-            if (_context.Пользовательs.Any(x => x.Логин == tbLogin.Text))
+            if (password.Length < 6)
             {
-                MessageBox.Show("Логин уже существует");
+                MessageBox.Show(
+                    "Пароль слишком короткий");
+
                 return;
             }
 
-            var user = new Пользователь
+            if (password != repeatPassword)
             {
-                Логин = tbLogin.Text,
-                Пароль = tbPassword.Password,
-                ФИО = tbName.Text,
-                Роль = "Клиент"
-            };
+                MessageBox.Show(
+                    "Пароли не совпадают");
 
-            _context.Пользовательs.Add(user);
+                return;
+            }
+
+            bool exists =
+                _context.Пользовательs
+                .Any(x => x.Логин == login);
+
+            if (exists)
+            {
+                MessageBox.Show(
+                    "Пользователь уже существует");
+
+                return;
+            }
+
+            Пользователь user =
+                new Пользователь
+                {
+                    ФИО = fullName,
+
+                    Логин = login,
+
+                    Пароль =
+                        HashService
+                        .ComputeSha512(password),
+
+                    Роль = "Client"
+                };
+
+            _context.Пользовательs
+                .Add(user);
+
             _context.SaveChanges();
 
-            MessageBox.Show("Регистрация успешна");
-            this.Close();
+            MessageBox.Show(
+                "Регистрация успешна");
+
+            new LoginWindow().Show();
+
+            Close();
         }
     }
 }

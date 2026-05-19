@@ -1,0 +1,43 @@
+﻿<Window x:Class="Coursework.Views.AdminWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Администратор"
+        Height="700"
+        Width="1200">
+
+    <Grid Margin="10">
+
+        <Grid.RowDefinitions>
+
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+
+        </Grid.RowDefinitions>
+
+        <ComboBox x:Name="TablesBox"
+                  Height="35"
+                  SelectionChanged=
+                  "TablesBox_SelectionChanged"/>
+
+        <DataGrid x:Name="AdminGrid"
+                  Grid.Row="1"
+                  Margin="0 10"
+                  AutoGenerateColumns="True"/>
+
+        <StackPanel Grid.Row="2"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Right">
+
+            <Button Content="Сохранить"
+                    Width="120"
+                    Click="Save_Click"/>
+
+            <Button Content="Удалить"
+                    Width="120"
+                    Click="Delete_Click"/>
+
+        </StackPanel>
+
+    </Grid>
+</Window>

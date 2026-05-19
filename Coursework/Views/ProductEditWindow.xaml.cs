@@ -1,52 +1,50 @@
 ﻿using Coursework.Models;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace Coursework.Views
 {
     public partial class ProductEditWindow : Window
     {
-        private KupriyanovIlya2307a1HlopokContext _context = new();
-        private Номенклатура _product = new();
+        private readonly
+        KupriyanovIlya2307a1HlopokContext
+            _context = new();
 
         public ProductEditWindow()
         {
             InitializeComponent();
         }
 
-        private void Save_Click(object sender, RoutedEventArgs e)
+        private void Save_Click(
+            object sender,
+            RoutedEventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(tbName.Text))
+            if (!decimal.TryParse(
+                tbPrice.Text,
+                out decimal price))
             {
-                MessageBox.Show("Введите название");
+                MessageBox.Show(
+                    "Некорректная цена");
+
                 return;
             }
 
-            if (!decimal.TryParse(tbPrice.Text, out decimal price) || price < 0)
-            {
-                MessageBox.Show("Некорректная цена");
-                return;
-            }
+            Номенклатура product =
+                new Номенклатура
+                {
+                    Название = tbName.Text,
 
-            _product.Название = tbName.Text;
-            _product.ПлановаяСтоимость = price;
+                    ПлановаяСтоимость = price
+                };
 
-            if (_product.ИдентификаторНоменклатуры == 0)
-                _context.Номенклатураs.Add(_product);
+            _context.Номенклатураs
+                .Add(product);
 
             _context.SaveChanges();
 
-            MessageBox.Show("Сохранено");
-            this.Close();
-        }
-        private void Cancel_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
+            MessageBox.Show(
+                "Товар добавлен");
+
+            Close();
         }
     }
 }

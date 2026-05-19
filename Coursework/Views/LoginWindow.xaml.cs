@@ -17,57 +17,62 @@ namespace Coursework.Views
 {
     public partial class LoginWindow : Window
     {
-        private AuthService _authService = new();
+        private readonly
+            AuthService _auth =
+            new();
 
         public LoginWindow()
         {
             InitializeComponent();
         }
 
-        private void btnLogin_Click(object sender, RoutedEventArgs e)
+        private void Login_Click(
+            object sender,
+            RoutedEventArgs e)
         {
-            string login = txtuserName.Text;
-            string password = txtpassword.Password;
-
-            if (string.IsNullOrWhiteSpace(login) || string.IsNullOrWhiteSpace(password))
-            {
-                MessageBox.Show("Введите логин и пароль");
-                return;
-            }
-
-            var user = _authService.Login(login, password);
+            var user =
+                _auth.Login(
+                    LoginBox.Text,
+                    PasswordBox.Password);
 
             if (user == null)
             {
-                MessageBox.Show("Неверный логин или пароль");
+                MessageBox.Show(
+                    "Неверный логин или пароль");
+
                 return;
             }
 
-            // сохраняем пользователя в сессию
             Session.CurrentUser = user;
 
-            MessageBox.Show($"Вы вошли как: {user.ФИО}");
+            switch (Session.CurrentRole)
+            {
+                case Role.Admin:
 
-            new MainWindow().Show();
-            this.Close();
+                    new AdminWindow().Show();
+                    break;
+
+                case Role.Manager:
+
+                    new OrdersWindow().Show();
+                    break;
+
+                default:
+
+                    new MainWindow().Show();
+                    break;
+            }
+
+            Close();
         }
 
-        private void btnGuest_Click(object sender, RoutedEventArgs e)
+        private void Register_Click(
+            object sender,
+            RoutedEventArgs e)
         {
-            Session.CurrentUser = null;
+            new RegisterWindow().Show();
 
-            new MainWindow().Show();
-            this.Close();
-        }
-        private void Window_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-                btnLogin_Click(sender, e);
-        }
-
-        private void Register_Click(object sender, RoutedEventArgs e)
-        {
-            new RegisterWindow().ShowDialog();
+            Close();
         }
     }
 }
