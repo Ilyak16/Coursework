@@ -20,23 +20,25 @@
                   SelectionChanged=
                   "TablesBox_SelectionChanged"/>
 
-        <DataGrid x:Name="AdminGrid"
-                  Grid.Row="1"
-                  Margin="0 10"
-                  AutoGenerateColumns="True"/>
+        <DataGrid x:Name="AdminGrid" 
+                  Grid.Row="1" 
+                  Margin="0 10" 
+                  AutoGenerateColumns="True" 
+                  IsReadOnly="False" 
+                  CanUserAddRows="True" 
+                  CanUserDeleteRows="True"/>
 
-        <StackPanel Grid.Row="2"
-                    Orientation="Horizontal"
-                    HorizontalAlignment="Right">
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+            <!-- Кнопка видна ТОЛЬКО для таблицы Заказ -->
+            <Button x:Name="btnOrderDetails" 
+            Content="Детали заказа" 
+            Width="150" 
+            Click="ViewOrderDetails_Click"
+            Visibility="Collapsed"
+            Margin="0 0 10 0"/>
 
-            <Button Content="Сохранить"
-                    Width="120"
-                    Click="Save_Click"/>
-
-            <Button Content="Удалить"
-                    Width="120"
-                    Click="Delete_Click"/>
-
+            <Button Content="Редактировать / Добавить" Width="180" Click="Edit_Click"/>
+            <Button Content="Удалить" Width="120" Click="Delete_Click"/>
         </StackPanel>
 
     </Grid>

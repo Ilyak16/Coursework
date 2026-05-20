@@ -27,6 +27,15 @@
                         Content="Добавить"
                         Width="120"
                         Click="Add_Click"/>
+                <Button x:Name="btnAddToCart" 
+                        Content="В корзину" 
+                        Width="120" 
+                        Click="AddToCart_Click"/>
+                
+                <Button x:Name="btnCheckout" 
+                        Content="Оформить заказ" 
+                        Width="120" 
+                        Click="Checkout_Click"/>
 
                 <Button x:Name="btnDelete"
                         Content="Удалить"
@@ -41,6 +50,13 @@
                 <Button Content="Выход"
                         Width="120"
                         Click="Logout_Click"/>
+
+                <TextBlock x:Name="tbCartCount" 
+                           Text="Корзина: 0" 
+                           Margin="20 0 0 0" 
+                           VerticalAlignment="Center" 
+                           FontWeight="Bold" 
+                           Foreground="#2E7D32"/>
 
                 <TextBlock x:Name="tbUser"
                            Margin="20 0 0 0"

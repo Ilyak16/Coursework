@@ -1,0 +1,21 @@
+﻿<Window x:Class="Coursework.Views.NomenclatureEditWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Редактирование товара" Height="400" Width="400"
+        WindowStartupLocation="CenterScreen">
+    <Grid Margin="20">
+        <StackPanel>
+            <TextBlock Text="Название товара:"/>
+            <TextBox x:Name="tbName" Height="35" Margin="0 5 0 15"/>
+
+            <TextBlock Text="Цена:"/>
+            <TextBox x:Name="tbPrice" Height="35" Margin="0 5 0 15"/>
+
+            <TextBlock Text="Категория:"/>
+            <!-- ComboBox для выбора категории вместо ввода ID -->
+            <ComboBox x:Name="cbCategory" Height="35" Margin="0 5 0 15" DisplayMemberPath="Название"/>
+
+            <Button Content="Сохранить" Height="40" Click="Save_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

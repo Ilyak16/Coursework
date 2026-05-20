@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Coursework.Models;
 namespace Coursework.Core
 {
     public static class Session
@@ -24,8 +23,8 @@ namespace Coursework.Core
 
                 return CurrentUser.Роль switch
                 {
-                    "Admin" => Role.Admin,
-                    "Manager" => Role.Manager,
+                    "Администратор" => Role.Admin,
+                    "Менеджер" => Role.Manager,
                     _ => Role.Client
                 };
             }

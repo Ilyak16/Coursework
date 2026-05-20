@@ -1,0 +1,30 @@
+﻿<Window x:Class="Coursework.Views.OrderEditWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Редактирование заказа" Height="500" Width="600"
+        WindowStartupLocation="CenterScreen">
+    <Grid Margin="20">
+        <StackPanel>
+            <TextBlock Text="Клиент:"/>
+            <ComboBox x:Name="cbClient" Height="35" Margin="0 5 0 15" 
+                      DisplayMemberPath="ФИО_или_название_компании"/>
+
+            <TextBlock Text="Дата:"/>
+            <DatePicker x:Name="dpDate" Height="35" Margin="0 5 0 15"/>
+
+            <TextBlock Text="Статус:"/>
+            <ComboBox x:Name="cbStatus" Height="35" Margin="0 5 0 15">
+                <ComboBoxItem Content="Новый"/>
+                <ComboBoxItem Content="Одобрен"/>
+                <ComboBoxItem Content="Отклонен"/>
+                <ComboBoxItem Content="В обработке"/>
+                <ComboBoxItem Content="Выполнен"/>
+            </ComboBox>
+
+            <TextBlock Text="Общая стоимость:"/>
+            <TextBox x:Name="tbTotalPrice" Height="35" Margin="0 5 0 15" IsReadOnly="True"/>
+
+            <Button Content="Сохранить" Height="40" Click="Save_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

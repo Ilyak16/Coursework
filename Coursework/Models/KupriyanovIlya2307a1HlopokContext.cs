@@ -548,6 +548,32 @@ public partial class KupriyanovIlya2307a1HlopokContext : DbContext
                 .HasConstraintName("FK__Поле__Идентифика__398D8EEE");
         });
 
+        modelBuilder.Entity<Пользователь>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Пользователь__ID");
+
+            entity.ToTable("Пользователь");
+
+            entity.Property(e => e.Id)
+                .HasColumnName("ID");
+
+            entity.Property(e => e.Логин)
+                .HasMaxLength(100)
+                .HasColumnName("Логин");
+
+            entity.Property(e => e.Пароль)
+                .HasMaxLength(150)
+                .HasColumnName("Пароль");
+
+            entity.Property(e => e.ФИО)
+                .HasMaxLength(200)
+                .HasColumnName("ФИО");
+
+            entity.Property(e => e.Роль)
+                .HasMaxLength(50)
+                .HasColumnName("Роль");
+        });
+
         modelBuilder.Entity<Поставка>(entity =>
         {
             entity.HasKey(e => e.ИдентификаторПоставки).HasName("PK__Поставка__98E40504E8152C34");
