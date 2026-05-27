@@ -1,5 +1,8 @@
 ﻿using Coursework.Core;
 using Coursework.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 
 namespace Coursework.Views
@@ -7,8 +10,9 @@ namespace Coursework.Views
     public partial class MainWindow : Window
     {
         private readonly KupriyanovIlya2307a1HlopokContext _context = new();
-        // Список для хранения товаров в корзине
-        private List<ПозицияЗаказа> _cart = new List<ПозицияЗаказа>();
+
+        // Поле для корзины
+        private List<CartItem> _cart = new List<CartItem>();
 
         public MainWindow()
         {
@@ -20,13 +24,11 @@ namespace Coursework.Views
 
         private void SetupPermissions()
         {
-            // Если не админ, скрываем админские кнопки
             if (Session.CurrentRole != Role.Admin)
             {
                 btnAdd.Visibility = Visibility.Collapsed;
                 btnDelete.Visibility = Visibility.Collapsed;
                 btnAdmin.Visibility = Visibility.Collapsed;
-                // Убираем возможность редактировать сетку
                 dgProducts.IsReadOnly = true;
             }
         }
@@ -39,10 +41,9 @@ namespace Coursework.Views
                 query = query.Where(x => x.Название.Contains(search));
             }
 
-            // Формируем список для отображения
             dgProducts.ItemsSource = query.Select(x => new
             {
-                x.ИдентификаторНоменклатуры, // Важно: нужен ID для заказа
+                x.ИдентификаторНоменклатуры,
                 x.Название,
                 Цена = x.ПлановаяСтоимость,
                 Количество = x.Запасыs.Sum(z => z.Количество)
@@ -54,7 +55,15 @@ namespace Coursework.Views
             LoadData(tbSearch.Text);
         }
 
-        // Логика добавления в корзину
+        // Открытие окна корзины
+        private void Cart_Click(object sender, RoutedEventArgs e)
+        {
+            var cartWindow = new CartWindow(_cart);
+            cartWindow.ShowDialog();
+            tbCartCount.Text = $"Корзина: {_cart.Sum(x => x.Количество)}";
+        }
+
+        // Добавление товара в корзину
         private void AddToCart_Click(object sender, RoutedEventArgs e)
         {
             if (dgProducts.SelectedItem == null)
@@ -63,60 +72,44 @@ namespace Coursework.Views
                 return;
             }
 
-            // Получаем ID выбранного товара (так как мы используем анонимный тип)
             dynamic selectedRow = dgProducts.SelectedItem;
             int productId = selectedRow.ИдентификаторНоменклатуры;
             string productName = selectedRow.Название;
             decimal price = selectedRow.Цена;
 
-            // Добавляем в список корзины
-            _cart.Add(new ПозицияЗаказа
+            var existingItem = _cart.FirstOrDefault(x => x.Id == productId);
+            if (existingItem != null)
             {
-                ИдентификаторНоменклатуры = productId,
-                Количество = 1, // По умолчанию 1
-                Стоимость = price
-            });
+                existingItem.Количество++;
+            }
+            else
+            {
+                _cart.Add(new CartItem
+                {
+                    Id = productId,
+                    Название = productName,
+                    Цена = price,
+                    Количество = 1
+                });
+            }
 
-            tbCartCount.Text = $"Корзина: {_cart.Count}";
+            tbCartCount.Text = $"Корзина: {_cart.Sum(x => x.Количество)}";
             MessageBox.Show($"Товар '{productName}' добавлен в корзину");
         }
 
-        // Логика оформления заказа
+        // Оформление заказа
         private void Checkout_Click(object sender, RoutedEventArgs e)
         {
             if (_cart.Count == 0)
             {
-                MessageBox.Show("Корзина пуста");
+                MessageBox.Show("Корзина пуста. Добавьте товары.");
                 return;
             }
 
-            try
+            var cartWindow = new CartWindow(_cart);
+            if (cartWindow.ShowDialog() == true)
             {
-                // Создаем новый заказ
-                Заказ newOrder = new Заказ
-                {
-                    ИдентификаторКлиента = Session.CurrentUser.Id,
-                    Дата = DateTime.Now,
-                    Статус = "Новый",
-                    ОбщаяСтоимость = _cart.Sum(p => p.Стоимость * p.Количество)
-                };
-
-                // Добавляем позиции заказа к заказу
-                foreach (var item in _cart)
-                {
-                    newOrder.ПозицияЗаказаs.Add(item);
-                }
-
-                _context.Заказs.Add(newOrder);
-                _context.SaveChanges();
-
-                MessageBox.Show("Заказ успешно оформлен!");
-                _cart.Clear();
                 tbCartCount.Text = "Корзина: 0";
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Ошибка при оформлении: " + ex.Message);
             }
         }
 
@@ -163,4 +156,5 @@ namespace Coursework.Views
             Close();
         }
     }
+    // УДАЛИТЕ отсюда класс CartItem - он уже есть в CartWindow.xaml.cs!
 }

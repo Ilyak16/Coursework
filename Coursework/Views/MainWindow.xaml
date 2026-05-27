@@ -27,15 +27,6 @@
                         Content="Добавить"
                         Width="120"
                         Click="Add_Click"/>
-                <Button x:Name="btnAddToCart" 
-                        Content="В корзину" 
-                        Width="120" 
-                        Click="AddToCart_Click"/>
-                
-                <Button x:Name="btnCheckout" 
-                        Content="Оформить заказ" 
-                        Width="120" 
-                        Click="Checkout_Click"/>
 
                 <Button x:Name="btnDelete"
                         Content="Удалить"
@@ -46,6 +37,19 @@
                         Width="140"
                         Click="Admin_Click"
                         x:Name="btnAdmin"/>
+
+                <!-- Кнопка просмотра корзины -->
+                <Button Content="Корзина"
+                        Width="120"
+                        Click="Cart_Click"/>
+
+                <Button Content="В корзину"
+                        Width="120"
+                        Click="AddToCart_Click"/>
+
+                <Button Content="Оформить заказ"
+                        Width="140"
+                        Click="Checkout_Click"/>
 
                 <Button Content="Выход"
                         Width="120"
